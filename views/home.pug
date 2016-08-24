@@ -1,0 +1,9 @@
+extends ./base.pug
+
+block content
+    h1 Home
+    p This is Home Page.
+
+    ul
+        each animal in animals
+            li #{animal}
