@@ -1,0 +1,23 @@
+{
+  "name": "node-express",
+  "version": "1.0.0",
+  "description": "npm-express study",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeoHeo/node-express.git"
+  },
+  "author": "https://github.com/LeoHeo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeoHeo/node-express/issues"
+  },
+  "homepage": "https://github.com/LeoHeo/node-express#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "pug": "^2.0.0-beta5"
+  }
+}
