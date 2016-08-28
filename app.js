@@ -1,9 +1,23 @@
+// depencies
 var path = require("path");
 var express = require("express");
+var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
 
 var app = express();
 
-var router = require("./router");
+var homeRouter = require("./routes/home");
+var aboutRouter = require("./routes/about");
+var watchaRouter = require("./routes/watcha.js");
+
+mongoose.connect("mongodb://localhost/node");
+var db = mongoose.connection;
+
+// 맨 처음 한번만
+db.once("open", function() {
+    console.log("mongo db is connected..");
+});
+
 
 // 1. Application Settings
 app.set("view engine", "pug");
@@ -14,9 +28,13 @@ app.use(function(req, res, next) {
     console.log("Requested on: ", req.url);
     next(); // 그 다음 callback func을 실행시킨다.
 });
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-app.use("/", router);
 
+app.use("/", homeRouter);
+app.use("/about/", aboutRouter);
+app.use("/watcha/", watchaRouter);
 
 app.listen(8080, function() {
     console.log("Server is running");
