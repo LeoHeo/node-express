@@ -1,14 +1,24 @@
 var express = require("express");
 var router = express.Router();
+var Movie = require("../models/movie");
 
 var httpRequest = require("request");
 
-router.get("/", function(req, res) { 
-    var url = "https://watcha.net/home/news.json?page=1&per=20";
+router.get("/", function(req, res) {
+    var query = req.query.query || "";
+    // 정규표현식 => "_____부산행_____"
+    // ".*부산행.*"
 
-    httpRequest(url, function(error, httpResponse, body) {
-        var data = JSON.parse(body);
-        return res.render("watcha", {newsItems: data["news"]});
+    var mongoQuery = {
+        title: {
+            $regex: ".*" + query + ".*"
+        }
+    }; // 이름 검색
+
+    Movie.find(mongoQuery, function(error, movies) {
+        return res.render("watcha", {
+            newsItems: movies
+        });
     });
 });
 

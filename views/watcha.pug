@@ -4,6 +4,10 @@ block content
     h1 Watcah news
     p 총 #{newsItems.length}개의 영화정보가 있습니다.
 
+    form(action="/watcha/" method="GET")
+        input(type="text" name="query")
+        input(type="submit" value="검색")
+
     ul
         each news in newsItems
             li
