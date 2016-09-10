@@ -4,8 +4,17 @@ var router = express.Router();
 var Movie = require("../models/movie");
 
 router.get("/", function(request, response) {
-    Movie.find({}, function(error, movies) {
-        return response.render("movies", {movieItems: movies});
+    var query = request.query.search || "";
+    var mongoQuery = {
+        title: {
+            $regex: ".*" + query + ".*"
+        }
+    };
+
+    Movie.find(mongoQuery, function(error, movies) {
+        return response.render("movies", {
+            movieItems: movies
+        });
     });
 });
 
