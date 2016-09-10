@@ -1,0 +1,16 @@
+extends ./base
+
+block content
+    div#section
+        h1 movies
+        p #{movieItems.length}개의 영화정보
+        
+        form(action="/movies" method="GET")
+            input(type="text" name="search")
+            input(type="submit" value="검색")
+
+        ul
+            each movie in movieItems
+                img(src=movie.image)
+                h2 #{movie.title}
+                p #{movie.content}
