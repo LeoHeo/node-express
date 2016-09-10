@@ -9,6 +9,7 @@ var app = express();
 var homeRouter = require("./routes/home");
 var aboutRouter = require("./routes/about");
 var watchaRouter = require("./routes/watcha.js");
+var movieRouter = require("./routes/movies");
 
 mongoose.connect("mongodb://localhost/node");
 var db = mongoose.connection;
@@ -35,7 +36,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use("/", homeRouter);
 app.use("/about/", aboutRouter);
 app.use("/watcha/", watchaRouter);
+app.use("/movies/", movieRouter);
 
-app.listen(8080, function() {
+app.listen(3000, function() {
     console.log("Server is running");
 });
