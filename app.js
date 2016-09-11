@@ -9,7 +9,13 @@ var app = express();
 var homeRouter = require("./routes/home");
 var aboutRouter = require("./routes/about");
 var watchaRouter = require("./routes/watcha.js");
+var movieRouter = require("./routes/movies");
+var contactRouter = require("./routes/contacts");
 
+// mpromise (mongoose's default promise library) is deprecated
+// 참고링크
+// http://mongoosejs.com/docs/promises.html#plugging-in-your-own-promises-library
+mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/node");
 var db = mongoose.connection;
 
@@ -35,7 +41,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use("/", homeRouter);
 app.use("/about/", aboutRouter);
 app.use("/watcha/", watchaRouter);
+app.use("/movies/", movieRouter);
+app.use("/contacts/", contactRouter);
 
-app.listen(8080, function() {
+app.listen(3000, function() {
     console.log("Server is running");
 });
