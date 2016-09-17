@@ -5,7 +5,13 @@ header
     ul
         li
             a(href="/") Home
-        li
-            a(href="/about/") About
-        li
-            a(href="/watcha") Watch
+        if !user
+            li
+                a(href="/signup/") Sign Up
+            li
+                a(href="/login/") Login
+        if user
+            li
+                a(href="/profile/") Profile
+            li
+                a(href="/logout/") Logout
