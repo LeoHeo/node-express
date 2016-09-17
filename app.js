@@ -5,6 +5,8 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var morgan = require("morgan");
 var session = require("express-session");
+var flash = require("connect-flash");
+var messages = require("express-messages");
 
 var app = express();
 
@@ -38,6 +40,13 @@ app.use(session({
     saveUninitialized: true
 }));
 
+
+app.use(flash());
+app.use(function(req, res, next) {
+    res.locals.messages = messages(req, res);
+    next();
+});
+
 // Middleware - logger(log를 기록하는 Middleware)
 app.use(function(req, res, next) {
     console.log("Requested on: ", req.url);
@@ -47,8 +56,8 @@ app.use(morgan("combined"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(function(request, response, next) {
-    response.locals.user = request.session.user;
+app.use(function(req, res, next) {
+    res.locals.user = req.session.user;
     next();
 });
 

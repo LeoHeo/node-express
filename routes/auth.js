@@ -17,6 +17,7 @@ router.route("/login/")
             if(user) {
                 console.log("User 로그인 성공!!");
                 req.session.user = user;
+                req.flash("success", "로그인 성공");
                 return res.redirect("/");
             }
         });
