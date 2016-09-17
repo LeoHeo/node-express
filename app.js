@@ -4,6 +4,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var morgan = require("morgan");
+var session = require("express-session");
 
 var app = express();
 
@@ -31,6 +32,12 @@ db.once("open", function() {
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(session({
+    secret: "node",
+    resave: true, 
+    saveUninitialized: true
+}));
+
 // Middleware - logger(log를 기록하는 Middleware)
 app.use(function(req, res, next) {
     console.log("Requested on: ", req.url);
@@ -40,6 +47,10 @@ app.use(morgan("combined"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(function(request, response, next) {
+    response.locals.user = request.session.user;
+    next();
+});
 
 app.use("/", homeRouter);
 app.use("/", authRouter);
@@ -47,6 +58,7 @@ app.use("/about/", aboutRouter);
 app.use("/watcha/", watchaRouter);
 app.use("/movies/", movieRouter);
 app.use("/contacts/", contactRouter);
+
 
 app.listen(3000, function() {
     console.log("Server is running");

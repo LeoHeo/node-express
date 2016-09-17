@@ -6,6 +6,20 @@ var User = require("../models/user");
 router.route("/login/")
     .get(function(req, res) {
         return res.render("auth/login");
+    })
+    .post(function(req, res, next) {
+        var username = req.body.username,
+            password = req.body.password;
+
+        User.authenticate(username, password, function(error, user) {
+            if(error) return next(error);
+
+            if(user) {
+                console.log("User 로그인 성공!!");
+                req.session.user = user;
+                return res.redirect("/");
+            }
+        });
     });
 
 
